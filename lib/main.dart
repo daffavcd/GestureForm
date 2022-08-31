@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'basic_widgets/image_widget.dart';
 import 'basic_widgets/forms.dart';
+import 'basic_widgets/input_fields.dart';
+import 'package:flutter/foundation.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,15 +36,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
 
   @override
@@ -51,6 +44,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  final TextEditingController _controller = TextEditingController.fromValue(
+      const TextEditingValue(text: "isi angka saja"));
 
   void _incrementCounter() {
     setState(() {
@@ -88,7 +83,26 @@ class _MyHomePageState extends State<MyHomePage> {
                 '$_counter',
                 style: Theme.of(context).textTheme.headline4,
               ),
-              const FormContoh(),
+              // const FormContoh(),
+              Form(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    VerificationCodeFormField(controller: _controller),
+                    Builder(
+                      builder: (BuildContext subContext) => ElevatedButton(
+                        onPressed: () {
+                          final valid = Form.of(subContext)?.validate();
+                          if (kDebugMode) {
+                            print("valid: $valid");
+                          }
+                        },
+                        child: const Text("validate"),
+                      ),
+                    )
+                  ],
+                ),
+              ),
             ],
           ),
         ),
