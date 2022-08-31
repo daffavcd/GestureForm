@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
@@ -15,6 +17,7 @@ class _FormContohState extends State<FormContoh> {
 
   final _key = GlobalKey<FormFieldState<String>>();
   String _textValue = "";
+  var txt = TextEditingController();
 
   @override
   void initState() {
@@ -49,7 +52,9 @@ class _FormContohState extends State<FormContoh> {
                   : null;
             },
           ),
-          TextFormField(),
+          TextFormField(
+            controller: txt,
+          ),
           Builder(
             builder: (BuildContext subContext) => TextButton(
               onPressed: () {
@@ -60,6 +65,12 @@ class _FormContohState extends State<FormContoh> {
                 if (valid) {
                   setState(() {
                     _textValue = _controller.text;
+                    txt.text = "Berhasil";
+                  });
+                } else {
+                  setState(() {
+                    _textValue = _controller.text;
+                    txt.text = "Masih Kosong";
                   });
                 }
               },
